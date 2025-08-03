@@ -94,35 +94,36 @@ export function ExerciseCard({ id, exercise, isCompleted, isActive, onComplete }
   };
 
   const exerciseCardStyle: React.CSSProperties = {
-    background: isCompleted ? '#f8f9fa' : 'white',
-    borderRadius: '15px',
+    background: isActive ? '#fafaff' : (isCompleted ? '#f9fafb' : '#ffffff'),
+    borderRadius: '16px',
     padding: '25px',
     marginBottom: '20px',
-    boxShadow: '0 5px 15px rgba(0, 0, 0, 0.1)',
-    borderLeft: `5px solid ${isCompleted ? '#28a745' : isActive ? '#ffc107' : '#667eea'}`,
-    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-    backgroundColor: isActive ? '#fffef7' : (isCompleted ? '#f8f9fa' : 'white'),
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
+    borderLeft: `6px solid ${isCompleted ? '#22c55e' : isActive ? '#f59e0b' : '#6366f1'}`,
+    transition: 'all 0.3s ease',
+    transform: isActive ? 'scale(1.02)' : 'scale(1)',
   };
 
   const exerciseHeaderStyle: React.CSSProperties = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '15px',
+    marginBottom: '20px',
   };
 
   const exerciseTitleStyle: React.CSSProperties = {
-    fontSize: '1.4em',
+    fontSize: '1.25em',
     fontWeight: 600,
-    color: '#333',
+    color: '#1f2937',
   };
 
   const exerciseRepsStyle: React.CSSProperties = {
-    background: '#667eea',
-    color: 'white',
-    padding: '8px 15px',
-    borderRadius: '20px',
+    background: '#eef2ff',
+    color: '#4338ca',
+    padding: '6px 12px',
+    borderRadius: '9999px',
     fontWeight: 500,
+    fontSize: '0.875em',
   };
 
   const exerciseDetailsStyle: React.CSSProperties = {
@@ -130,17 +131,19 @@ export function ExerciseCard({ id, exercise, isCompleted, isActive, onComplete }
   };
 
   const exerciseNotesStyle: React.CSSProperties = {
-    background: '#f8f9fa',
-    padding: '15px',
-    borderRadius: '10px',
+    background: '#f0f9ff',
+    padding: '12px',
+    borderRadius: '8px',
     marginBottom: '15px',
-    borderLeft: '3px solid #17a2b8',
+    borderLeft: '4px solid #38bdf8',
+    color: '#075985',
+    fontSize: '0.9em',
   };
 
   const videoContainerStyle: React.CSSProperties = {
-    background: '#f8f9fa',
-    border: '2px solid #667eea',
-    borderRadius: '10px',
+    background: '#f3f4f6',
+    border: '1px solid #e5e7eb',
+    borderRadius: '12px',
     padding: '20px',
     marginBottom: '15px',
     textAlign: 'center',
@@ -169,8 +172,8 @@ export function ExerciseCard({ id, exercise, isCompleted, isActive, onComplete }
   const timerDisplayStyle: React.CSSProperties = {
     fontSize: '1.2em',
     fontWeight: 600,
-    color: timerComplete ? 'white' : '#333',
-    background: timerComplete ? '#28a745' : '#f8f9fa',
+    color: timerComplete ? 'white' : '#1f2937',
+    background: timerComplete ? '#22c55e' : '#f3f4f6',
     padding: '8px 15px',
     borderRadius: '8px',
   };
@@ -183,35 +186,41 @@ export function ExerciseCard({ id, exercise, isCompleted, isActive, onComplete }
 
   const btnStyle: React.CSSProperties = {
     padding: '10px 20px',
-    border: 'none',
+    border: '1px solid #d1d5db',
     borderRadius: '8px',
     cursor: 'pointer',
     fontWeight: 500,
-    transition: 'all 0.3s ease',
+    transition: 'all 0.2s ease',
+    background: '#ffffff',
+    color: '#374151',
   };
 
   const btnPrimaryStyle: React.CSSProperties = {
     ...btnStyle,
-    background: '#667eea',
+    background: '#4f46e5',
     color: 'white',
+    border: 'none',
   };
 
   const btnSecondaryStyle: React.CSSProperties = {
     ...btnStyle,
-    background: '#6c757d',
+    background: '#6b7280',
     color: 'white',
+    border: 'none',
   };
 
   const btnSuccessStyle: React.CSSProperties = {
     ...btnStyle,
-    background: '#28a745',
+    background: '#22c55e',
     color: 'white',
+    border: 'none',
   };
 
   const btnWarningStyle: React.CSSProperties = {
     ...btnStyle,
-    background: '#ffc107',
-    color: '#333',
+    background: '#f59e0b',
+    color: 'white',
+    border: 'none',
   };
 
   return (

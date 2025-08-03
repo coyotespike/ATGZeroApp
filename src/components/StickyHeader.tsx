@@ -30,17 +30,18 @@ export function StickyHeader({
     top: 0,
     left: 0,
     right: 0,
-    background: 'rgba(255, 255, 255, 0.98)',
+    background: 'rgba(255, 255, 255, 0.8)',
     backdropFilter: 'blur(10px)',
     zIndex: 1000,
-    padding: '15px 20px',
-    boxShadow: '0 2px 20px rgba(0, 0, 0, 0.1)',
+    padding: '12px 20px',
+    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.07)',
     transition: 'transform 0.3s ease',
     transform: show ? 'translateY(0)' : 'translateY(-100%)',
+    borderBottom: '1px solid #e5e7eb',
   };
 
   const headerContentStyle: React.CSSProperties = {
-    maxWidth: '1000px',
+    maxWidth: '900px',
     margin: '0 auto',
     display: 'flex',
     alignItems: 'center',
@@ -48,9 +49,9 @@ export function StickyHeader({
   };
 
   const workoutTitleStyle: React.CSSProperties = {
-    fontSize: '1.2em',
+    fontSize: '1.1em',
     fontWeight: 600,
-    color: '#333',
+    color: '#111827',
     whiteSpace: 'nowrap',
   };
 
@@ -65,33 +66,33 @@ export function StickyHeader({
     alignItems: 'center',
     gap: '5px',
     fontSize: '0.9em',
-    color: '#666',
+    color: '#4b5563',
   };
 
   const miniStatNumberStyle: React.CSSProperties = {
     fontWeight: 600,
-    color: '#667eea',
+    color: '#4f46e5',
   };
 
   const progressBarStyle: React.CSSProperties = {
     flex: 1,
     height: '6px',
-    background: '#e0e0e0',
+    background: '#f3f4f6',
     borderRadius: '3px',
-    margin: 0,
+    margin: '0',
     overflow: 'hidden',
   };
 
   const progressFillStyle: React.CSSProperties = {
     height: '100%',
-    background: 'linear-gradient(90deg, #667eea, #764ba2)',
+    background: 'linear-gradient(90deg, #4f46e5, #7c3aed)',
     borderRadius: '3px',
     transition: 'width 0.5s ease',
     width: `${progress}%`,
   };
 
-  const pauseBtnStyle: React.CSSProperties = {
-    background: workoutPaused ? 'rgba(255, 193, 7, 0.2)' : 'none',
+  const timerPauseBtnStyle: React.CSSProperties = {
+    background: 'none',
     border: 'none',
     fontSize: '1.2em',
     cursor: 'pointer',
@@ -114,7 +115,7 @@ export function StickyHeader({
           <div style={miniStatStyle}>
             <span style={miniStatNumberStyle}>{formatTime(timeElapsed)}</span>
             <button 
-              style={pauseBtnStyle}
+              style={timerPauseBtnStyle}
               onClick={onTogglePause}
               onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(102, 126, 234, 0.1)'}
               onMouseLeave={(e) => e.currentTarget.style.background = workoutPaused ? 'rgba(255, 193, 7, 0.2)' : 'none'}

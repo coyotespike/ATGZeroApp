@@ -123,12 +123,12 @@ function App() {
   const progress = (completedExercises.length / EXERCISE_ORDER.length) * 100;
 
   const containerStyle: React.CSSProperties = {
-    maxWidth: '1000px',
+    maxWidth: '900px',
     margin: '0 auto',
-    background: 'rgba(255, 255, 255, 0.95)',
-    borderRadius: '20px',
-    padding: '30px',
-    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
+    background: '#ffffff',
+    borderRadius: '24px',
+    padding: '30px 40px',
+    boxShadow: '0 10px 50px rgba(0, 0, 0, 0.08)',
     paddingTop: showStickyHeader ? '110px' : '30px',
   };
 
@@ -136,57 +136,65 @@ function App() {
     textAlign: 'center',
     marginBottom: '30px',
     paddingBottom: '20px',
-    borderBottom: '3px solid #667eea',
+    borderBottom: '1px solid #e5e7eb',
   };
 
   const headerTitleStyle: React.CSSProperties = {
-    color: '#333',
-    fontSize: '2.5em',
+    color: '#111827',
+    fontSize: '2.25em',
+    fontWeight: 700,
     marginBottom: '10px',
   };
 
   const progressBarStyle: React.CSSProperties = {
     width: '100%',
-    height: '8px',
-    background: '#e0e0e0',
-    borderRadius: '4px',
+    height: '10px',
+    background: '#f3f4f6',
+    borderRadius: '5px',
     margin: '20px 0',
     overflow: 'hidden',
   };
 
   const progressFillStyle: React.CSSProperties = {
     height: '100%',
-    background: 'linear-gradient(90deg, #667eea, #764ba2)',
-    borderRadius: '4px',
+    background: 'linear-gradient(90deg, #4f46e5, #7c3aed)',
+    borderRadius: '5px',
     transition: 'width 0.5s ease',
     width: `${progress}%`,
   };
 
   const resetBtnStyle: React.CSSProperties = {
     padding: '10px 20px',
-    border: 'none',
+    border: '1px solid #d1d5db',
     borderRadius: '8px',
     cursor: 'pointer',
     fontWeight: 500,
-    transition: 'all 0.3s ease',
-    background: '#6c757d',
-    color: 'white',
+    transition: 'all 0.2s ease',
+    background: '#ffffff',
+    color: '#374151',
     marginTop: '15px',
     fontSize: '0.9em',
   };
 
   const completionBannerStyle: React.CSSProperties = {
-    background: 'linear-gradient(135deg, #28a745, #20c997)',
+    background: 'linear-gradient(135deg, #10b981, #34d399)',
     color: 'white',
-    padding: '20px',
-    borderRadius: '15px',
+    padding: '25px',
+    borderRadius: '16px',
     textAlign: 'center',
     marginBottom: '20px',
     animation: 'slideIn 0.5s ease',
   };
 
+  const bodyStyle: React.CSSProperties = {
+    fontFamily: "'Inter', sans-serif",
+    background: 'linear-gradient(135deg, #e0e7ff 0%, #d1fae5 100%)',
+    minHeight: '100vh',
+    padding: '20px',
+  };
+
   return (
-    <>
+    <div style={bodyStyle}>
       <StickyHeader
         show={showStickyHeader}
         completedCount={completedExercises.length}
@@ -242,7 +250,7 @@ function App() {
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
 
