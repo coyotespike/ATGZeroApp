@@ -122,21 +122,13 @@ function App() {
   const timeRemaining = calculateTimeRemaining();
   const progress = (completedExercises.length / EXERCISE_ORDER.length) * 100;
 
-  const containerStyle: React.CSSProperties = {
-    maxWidth: '900px',
-    margin: '0 auto',
-    background: '#ffffff',
-    borderRadius: '24px',
-    padding: '30px 40px',
-    boxShadow: '0 10px 50px rgba(0, 0, 0, 0.08)',
-    paddingTop: showStickyHeader ? '110px' : '30px',
-  };
-
   const headerStyle: React.CSSProperties = {
     textAlign: 'center',
     marginBottom: '30px',
-    paddingBottom: '20px',
-    borderBottom: '1px solid #e5e7eb',
+    padding: '30px',
+    borderRadius: '24px',
+    background: '#ffffff',
+    boxShadow: '0 10px 50px rgba(0, 0, 0, 0.08)',
   };
 
   const headerTitleStyle: React.CSSProperties = {
@@ -186,15 +178,8 @@ function App() {
     animation: 'slideIn 0.5s ease',
   };
 
-  const bodyStyle: React.CSSProperties = {
-    fontFamily: "'Inter', sans-serif",
-    background: 'linear-gradient(135deg, #e0e7ff 0%, #d1fae5 100%)',
-    minHeight: '100vh',
-    padding: '20px',
-  };
-
   return (
-    <div style={bodyStyle}>
+    <>
       <StickyHeader
         show={showStickyHeader}
         completedCount={completedExercises.length}
@@ -205,8 +190,8 @@ function App() {
         workoutPaused={workoutPaused}
         onTogglePause={toggleWorkoutPause}
       />
-      <div style={containerStyle}>
-        <div style={headerStyle} ref={headerRef}>
+      <main style={{ maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
+        <header style={headerStyle} ref={headerRef}>
           <h1 style={headerTitleStyle}>ATG Picture Book Workout</h1>
           <Stats
             completedCount={completedExercises.length}
@@ -220,12 +205,12 @@ function App() {
           <button 
             style={resetBtnStyle} 
             onClick={resetWorkout}
-            onMouseEnter={(e) => e.currentTarget.style.background = '#5a6268'}
-            onMouseLeave={(e) => e.currentTarget.style.background = '#6c757d'}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#f9fafb'}
+            onMouseLeave={(e) => e.currentTarget.style.background = '#ffffff'}
           >
             Reset Workout
           </button>
-        </div>
+        </header>
 
         {completedExercises.length === EXERCISE_ORDER.length && (
           <div style={completionBannerStyle}>
@@ -249,8 +234,8 @@ function App() {
             />
           );
         })}
-      </div>
-    </div>
+      </main>
+    </>
   );
 }
 
