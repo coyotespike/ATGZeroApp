@@ -25,6 +25,7 @@ export function ExerciseCard({ id, exercise, isCompleted, isActive, onComplete }
   const [timerTime, setTimerTime] = useState<number | null>(null);
   const [timerRunning, setTimerRunning] = useState(false);
   const [timerComplete, setTimerComplete] = useState(false);
+  const [videoExpanded, setVideoExpanded] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -136,6 +137,28 @@ export function ExerciseCard({ id, exercise, isCompleted, isActive, onComplete }
     borderLeft: '3px solid #17a2b8',
   };
 
+  const videoContainerStyle: React.CSSProperties = {
+    background: '#f8f9fa',
+    border: '2px solid #667eea',
+    borderRadius: '10px',
+    padding: '20px',
+    marginBottom: '15px',
+    textAlign: 'center',
+  };
+
+  const videoHeaderStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    cursor: 'pointer',
+  }
+
+  const videoPlayerWrapperStyle: React.CSSProperties = {
+    maxHeight: videoExpanded ? '500px' : '0',
+    overflow: 'hidden',
+    transition: 'max-height 0.5s ease-in-out',
+  };
+
   const timerStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
@@ -214,13 +237,26 @@ export function ExerciseCard({ id, exercise, isCompleted, isActive, onComplete }
             <strong>{exercise.notes}</strong>
           </div>
         )}
-        <VideoPlayer
-          videoId={exercise.videoId}
-          startTime={exercise.startTime}
-          thumbnail={exercise.thumbnail}
-          title={exercise.videoTitle}
-          description={exercise.videoDescription}
-        />
+        <div style={videoContainerStyle}>
+          <div style={videoHeaderStyle} onClick={() => setVideoExpanded(!videoExpanded)}>
+            <div>
+              <h3 style={{fontSize: '1.1em', fontWeight: 600, color: '#333', margin: 0, textAlign: 'left'}}>
+                {exercise.videoTitle}
+              </h3>
+              <p style={{color: '#666', fontSize: '0.9em', margin: 0, textAlign: 'left'}}>{exercise.videoDescription}</p>
+            </div>
+            <span style={{fontSize: '1.5em'}}>{videoExpanded ? '▲' : '▼'}</span>
+          </div>
+          <div style={videoPlayerWrapperStyle}>
+            <div style={{paddingTop: '15px'}}>
+              <VideoPlayer
+                videoId={exercise.videoId}
+                startTime={exercise.startTime}
+                thumbnail={exercise.thumbnail}
+              />
+            </div>
+          </div>
+        </div>
         
         {timerTime !== null && (
           <div style={timerStyle}>

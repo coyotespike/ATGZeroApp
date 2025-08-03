@@ -4,11 +4,9 @@ interface VideoPlayerProps {
   videoId: string;
   startTime?: number;
   thumbnail: string;
-  title: string;
-  description: string;
 }
 
-export function VideoPlayer({ videoId, startTime, thumbnail, title, description }: VideoPlayerProps) {
+export function VideoPlayer({ videoId, startTime, thumbnail }: VideoPlayerProps) {
   const [showPlayer, setShowPlayer] = useState(false);
 
   const loadVideo = () => {
@@ -16,28 +14,6 @@ export function VideoPlayer({ videoId, startTime, thumbnail, title, description 
   };
 
   const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0${startTime ? `&start=${startTime}` : ''}`;
-
-  const videoContainerStyle: React.CSSProperties = {
-    background: '#f8f9fa',
-    border: '2px solid #667eea',
-    borderRadius: '10px',
-    padding: '20px',
-    marginBottom: '15px',
-    textAlign: 'center',
-  };
-
-  const videoTitleStyle: React.CSSProperties = {
-    fontSize: '1.1em',
-    fontWeight: 600,
-    color: '#333',
-    marginBottom: '10px',
-  };
-
-  const videoDescriptionStyle: React.CSSProperties = {
-    color: '#666',
-    fontSize: '0.9em',
-    marginBottom: '15px',
-  };
 
   const videoEmbedStyle: React.CSSProperties = {
     position: 'relative',
@@ -85,45 +61,41 @@ export function VideoPlayer({ videoId, startTime, thumbnail, title, description 
   };
 
   return (
-    <div style={videoContainerStyle}>
-      <div style={videoTitleStyle}>{title}</div>
-      <div style={videoDescriptionStyle}>{description}</div>
-      <div style={videoEmbedStyle}>
-        {showPlayer ? (
-          <iframe 
-            style={youtubePlayerStyle}
-            src={embedUrl}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
+    <div style={videoEmbedStyle}>
+      {showPlayer ? (
+        <iframe 
+          style={youtubePlayerStyle}
+          src={embedUrl}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      ) : (
+        <>
+          <img 
+            src={thumbnail}
+            alt="Exercise preview"
+            style={videoThumbnailStyle}
+            onClick={loadVideo}
+            loading="lazy"
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           />
-        ) : (
-          <>
-            <img 
-              src={thumbnail}
-              alt="Exercise preview"
-              style={videoThumbnailStyle}
-              onClick={loadVideo}
-              loading="lazy"
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            />
-            <button 
-              style={playButtonStyle} 
-              onClick={loadVideo}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(0,0,0,0.5)';
-                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.1)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(0,0,0,0.3)';
-                e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
-              }}
-            >
-              ▶️
-            </button>
-          </>
-        )}
-      </div>
+          <button 
+            style={playButtonStyle} 
+            onClick={loadVideo}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(0,0,0,0.5)';
+              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(0,0,0,0.3)';
+              e.currentTarget.style.transform = 'translate(-50%, -50%) scale(1)';
+            }}
+          >
+            ▶️
+          </button>
+        </>
+      )}
     </div>
   );
 }
