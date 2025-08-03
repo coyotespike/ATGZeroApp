@@ -3,6 +3,7 @@ import { EXERCISE_DATA, EXERCISE_ORDER } from './data';
 import { StickyHeader } from './components/StickyHeader';
 import { Stats } from './components/Stats';
 import { ExerciseCard } from './components/ExerciseCard';
+import { VideoPlayer } from './components/VideoPlayer';
 
 function App() {
   const [completedExercises, setCompletedExercises] = useState<string[]>([]);
@@ -13,6 +14,7 @@ function App() {
   const [workoutPauseStartTime, setWorkoutPauseStartTime] = useState<number | null>(null);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [showStickyHeader, setShowStickyHeader] = useState(false);
+  const [summaryExpanded, setSummaryExpanded] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -178,6 +180,28 @@ function App() {
     animation: 'slideIn 0.5s ease',
   };
 
+  const summaryVideoContainerStyle: React.CSSProperties = {
+    background: '#f3f4f6',
+    border: '1px solid #e5e7eb',
+    borderRadius: '12px',
+    padding: '20px',
+    marginTop: '20px',
+    textAlign: 'center',
+  };
+
+  const summaryVideoHeaderStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    cursor: 'pointer',
+  }
+
+  const summaryVideoPlayerWrapperStyle: React.CSSProperties = {
+    maxHeight: summaryExpanded ? '500px' : '0',
+    overflow: 'hidden',
+    transition: 'max-height 0.5s ease-in-out',
+  };
+
   return (
     <>
       <StickyHeader
@@ -190,7 +214,7 @@ function App() {
         workoutPaused={workoutPaused}
         onTogglePause={toggleWorkoutPause}
       />
-      <main style={{ maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
+      <main style={{ maxWidth: '900px', margin: '0 auto', padding: '20px', paddingTop: '80px' }}>
         <header style={headerStyle} ref={headerRef}>
           <h1 style={headerTitleStyle}>ATG Picture Book Workout</h1>
           <Stats
@@ -210,6 +234,25 @@ function App() {
           >
             Reset Workout
           </button>
+          <div style={summaryVideoContainerStyle}>
+            <div style={summaryVideoHeaderStyle} onClick={() => setSummaryExpanded(!summaryExpanded)}>
+              <div>
+                <h3 style={{fontSize: '1.1em', fontWeight: 600, color: '#1f2937', margin: 0, textAlign: 'left'}}>
+                  Workout Summary
+                </h3>
+                <p style={{color: '#6b7280', fontSize: '0.9em', margin: 0, textAlign: 'left'}}>A quick overview of the entire routine.</p>
+              </div>
+              <span style={{fontSize: '1.5em'}}>{summaryExpanded ? '▲' : '▼'}</span>
+            </div>
+            <div style={summaryVideoPlayerWrapperStyle}>
+              <div style={{paddingTop: '15px'}}>
+                <VideoPlayer
+                  videoId="S7--6qiy8vY"
+                  thumbnail="https://i.ytimg.com/vi/S7--6qiy8vY/maxresdefault.jpg"
+                />
+              </div>
+            </div>
+          </div>
         </header>
 
         {completedExercises.length === EXERCISE_ORDER.length && (
