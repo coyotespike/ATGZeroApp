@@ -8,6 +8,9 @@
 - [x] **Session persistence** - Saves progress using localStorage, restores on page reload
 - [x] **PWA functionality** - Installable as home screen app with offline support
 - [x] **Reset workout** - Button to clear progress and restart workout
+- [x] **Embedded video previews** - YouTube thumbnails with click-to-play functionality
+- [x] **Estimated time remaining** - Real-time calculation and display of workout time left
+- [x] **Mobile-optimized videos** - Responsive video players and thumbnails
 
 ## 🚧 Architecture Notes
 - **Current:** Single HTML file approach for zero-deployment complexity
@@ -21,7 +24,7 @@ A. Progress Persistence & Navigation
 
 ~~Auto-scroll to active exercise~~ ✅ DONE - Smooth scroll when completing steps
 ~~Floating/sticky progress header~~ ✅ DONE - Always visible stats and progress bar
-Session persistence - Save progress (use URL params, session storage, or localStorage)
+~~Session persistence~~ ✅ DONE - Save progress (use URL params, session storage, or localStorage)
 Auto-advance timers - When timer hits 0, auto-complete the exercise
 
 B. Mobile-First Improvements
@@ -33,8 +36,8 @@ Collapse completed exercises - Hide finished steps to reduce clutter
 🎯 Priority 2: Smart Coaching Features (High Value)
 A. Intelligent Guidance
 
-Exercise preview images/GIFs - Quick visual reference without leaving the page
-Estimated time remaining - Live countdown for whole workout
+~~Exercise preview images/GIFs~~ ✅ DONE - Quick visual reference without leaving the page
+~~Estimated time remaining~~ ✅ DONE - Live countdown for whole workout
 Quick exercise substitutions - "Can't do this? Try this instead"
 Rest timer automation - Auto-start rest periods between sets
 

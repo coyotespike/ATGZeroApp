@@ -228,6 +228,58 @@
             text-align: center;
         }
 
+        .video-embed {
+            position: relative;
+            width: 100%;
+            max-width: 560px;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/9;
+            border-radius: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .video-thumbnail:hover {
+            transform: scale(1.02);
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.3);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .play-button:hover {
+            background: rgba(0,0,0,0.5);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .youtube-player {
+            width: 100%;
+            height: 315px;
+            border: none;
+            border-radius: 8px;
+        }
+
         .video-link {
             display: inline-block;
             background: #667eea;
@@ -410,6 +462,20 @@
             .content-offset {
                 padding-top: 120px;
             }
+
+            .play-button {
+                font-size: 2em;
+                width: 60px;
+                height: 60px;
+            }
+
+            .youtube-player {
+                height: 200px;
+            }
+
+            .video-thumbnail {
+                border-radius: 6px;
+            }
         }
     </style>
 </head>
@@ -426,6 +492,9 @@
                 <div class="mini-stat">
                     <span class="mini-stat-number" id="stickyTime">0:00</span>
                     <button class="timer-pause-btn" id="timerPauseBtn" onclick="toggleWorkoutTimer()">⏸️</button>
+                </div>
+                <div class="mini-stat">
+                    <span class="mini-stat-number" id="stickyTimeRemaining">52 min left</span>
                 </div>
             </div>
             <div class="progress-bar">
@@ -449,6 +518,10 @@
                 <div class="stat-card">
                     <div class="stat-number" id="timeElapsed">0:00</div>
                     <div class="stat-label">Time Elapsed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="timeRemaining">52 min remaining</div>
+                    <div class="stat-label">Est. Remaining</div>
                 </div>
             </div>
             <div class="progress-bar">
@@ -474,8 +547,14 @@
                 <div class="video-container">
                     <div class="video-title">Walking Backwards for Beginners - ROKP Warm-Up</div>
                     <div class="video-description">Perfect beginner-friendly guide for backward walking/ROKP technique</div>
-                    <a href="https://www.youtube.com/results?search_query=walking+backwards+for+beginners+yes2next" target="_blank" class="video-link">Search: Walking Backwards Beginner</a>
-                    <a href="https://www.youtube.com/watch?v=44ScXWFaVBs" target="_blank" class="video-link">Alternative: Basic Walking Backwards</a>
+                    <div class="video-embed" id="video-warmup">
+                        <img src="https://img.youtube.com/vi/44ScXWFaVBs/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('warmup')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('warmup')">▶️</div>
+                    </div>
                 </div>
                 <div class="timer">
                     <div class="timer-display" id="warmupTimer">10:00</div>
@@ -500,7 +579,14 @@
                 <div class="video-container">
                     <div class="video-title">Tibialis Raise Demonstration</div>
                     <div class="video-description">Proper tibialis raise technique for shin strength</div>
-                    <a href="https://www.youtube.com/watch?v=gNS_QjGAs_k" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-step1">
+                        <img src="https://img.youtube.com/vi/gNS_QjGAs_k/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('step1')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('step1')">▶️</div>
+                    </div>
                 </div>
                 <button class="btn btn-success" onclick="completeExercise('step1')">Complete 25 Reps</button>
             </div>
@@ -518,7 +604,14 @@
                 <div class="video-container">
                     <div class="video-title">FHL Calf Raise with Scaling Options</div>
                     <div class="video-description">FHL calf raise technique with single leg progression</div>
-                    <a href="https://www.youtube.com/watch?v=BWedccP0o_U" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-step2">
+                        <img src="https://img.youtube.com/vi/BWedccP0o_U/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('step2')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('step2')">▶️</div>
+                    </div>
                 </div>
                 <button class="btn btn-success" onclick="completeExercise('step2')">Complete 25 Reps</button>
             </div>
@@ -536,7 +629,14 @@
                 <div class="video-container">
                     <div class="video-title">Tibialis Raise Demonstration</div>
                     <div class="video-description">Proper tibialis raise technique for shin strength</div>
-                    <a href="https://www.youtube.com/watch?v=gNS_QjGAs_k" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-step2b">
+                        <img src="https://img.youtube.com/vi/gNS_QjGAs_k/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('step2b')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('step2b')">▶️</div>
+                    </div>
                 </div>
                 <button class="btn btn-success" onclick="completeExercise('step2b')">Complete 25 Reps</button>
             </div>
@@ -554,7 +654,14 @@
                 <div class="video-container">
                     <div class="video-title">KOT Calf Raise with Scaling Options</div>
                     <div class="video-description">KOT calf raise technique with single leg progression</div>
-                    <a href="https://www.youtube.com/watch?v=m1aMq9W-jDo" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-step3">
+                        <img src="https://img.youtube.com/vi/m1aMq9W-jDo/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('step3')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('step3')">▶️</div>
+                    </div>
                 </div>
                 <button class="btn btn-success" onclick="completeExercise('step3')">Complete 25 Reps</button>
             </div>
@@ -572,7 +679,14 @@
                 <div class="video-container">
                     <div class="video-title">Patrick Step-Up Progression</div>
                     <div class="video-description">Patrick > Poliquin > Petersen step-up progression demonstration</div>
-                    <a href="https://www.youtube.com/watch?v=c_VMErzFsZc" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-step4">
+                        <img src="https://img.youtube.com/vi/c_VMErzFsZc/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('step4')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('step4')">▶️</div>
+                    </div>
                 </div>
                 <button class="btn btn-success" onclick="completeExercise('step4')">Complete Sets</button>
             </div>
@@ -590,7 +704,14 @@
                 <div class="video-container">
                     <div class="video-title">ATG Split Squat Demonstration</div>
                     <div class="video-description">Deep range of motion split squat technique</div>
-                    <a href="https://www.youtube.com/watch?v=WQneOolYFbo&t=180s" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-step5">
+                        <img src="https://img.youtube.com/vi/WQneOolYFbo/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('step5')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('step5')">▶️</div>
+                    </div>
                 </div>
                 <button class="btn btn-success" onclick="completeExercise('step5')">Complete All Sets</button>
             </div>
@@ -608,7 +729,14 @@
                 <div class="video-container">
                     <div class="video-title">VMO Squat Demonstration</div>
                     <div class="video-description">VMO-focused squat variation for knee strength</div>
-                    <a href="https://www.youtube.com/watch?v=WQneOolYFbo&t=240s" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-hidden">
+                        <img src="https://img.youtube.com/vi/WQneOolYFbo/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('hidden')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('hidden')">▶️</div>
+                    </div>
                 </div>
                 <button class="btn btn-success" onclick="completeExercise('hidden')">Complete 25 Reps</button>
             </div>
@@ -626,7 +754,14 @@
                 <div class="video-container">
                     <div class="video-title">KOT Squat Demonstration</div>
                     <div class="video-description">Full knees-over-toes squat technique</div>
-                    <a href="https://www.youtube.com/watch?v=WQneOolYFbo&t=300s" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-step6">
+                        <img src="https://img.youtube.com/vi/WQneOolYFbo/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('step6')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('step6')">▶️</div>
+                    </div>
                 </div>
                 <button class="btn btn-warning" onclick="skipExercise('step6')">Skip</button>
                 <button class="btn btn-success" onclick="completeExercise('step6')">Complete</button>
@@ -642,7 +777,14 @@
                 <div class="video-container">
                     <div class="video-title">Elephant Walk Demonstration</div>
                     <div class="video-description">Elephant walk drill for hamstring and hip mobility</div>
-                    <a href="https://www.youtube.com/watch?v=7IFO7J3AV5Y&t=330s" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-step7">
+                        <img src="https://img.youtube.com/vi/7IFO7J3AV5Y/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('step7')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('step7')">▶️</div>
+                    </div>
                 </div>
                 <button class="btn btn-success" onclick="completeExercise('step7')">Complete 36 Reps Each Side</button>
             </div>
@@ -660,7 +802,14 @@
                 <div class="video-container">
                     <div class="video-title">L-Sit Progression Tutorial</div>
                     <div class="video-description">L-sit progression and technique guide</div>
-                    <a href="https://www.youtube.com/watch?v=44ScXWFaVBs" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-step8">
+                        <img src="https://img.youtube.com/vi/44ScXWFaVBs/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('step8')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('step8')">▶️</div>
+                    </div>
                 </div>
                 <div class="timer">
                     <div class="timer-display" id="step8Timer">1:00</div>
@@ -685,7 +834,14 @@
                 <div class="video-container">
                     <div class="video-title">Couch Stretch Demonstration</div>
                     <div class="video-description">Proper couch stretch technique for hip flexors</div>
-                    <a href="https://www.youtube.com/watch?v=Jay0Sd2exg0" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-step9">
+                        <img src="https://img.youtube.com/vi/Jay0Sd2exg0/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('step9')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('step9')">▶️</div>
+                    </div>
                 </div>
                 <div class="timer">
                     <div class="timer-display" id="step9Timer">1:00</div>
@@ -707,7 +863,14 @@
                 <div class="video-container">
                     <div class="video-title">Piriformis Stretch Demonstration</div>
                     <div class="video-description">Piriformis stretch technique for hip and glute mobility</div>
-                    <a href="https://www.youtube.com/watch?v=1fbFMCyRDGs" target="_blank" class="video-link">Watch on YouTube</a>
+                    <div class="video-embed" id="video-step10">
+                        <img src="https://img.youtube.com/vi/1fbFMCyRDGs/maxresdefault.jpg" 
+                             alt="Exercise preview" 
+                             class="video-thumbnail" 
+                             onclick="loadVideo('step10')"
+                             loading="lazy">
+                        <div class="play-button" onclick="loadVideo('step10')">▶️</div>
+                    </div>
                 </div>
                 <div class="timer">
                     <div class="timer-display" id="step10Timer">1:30</div>
@@ -731,6 +894,79 @@
         let workoutTimer = null;
         let timers = {};
 
+        // Exercise data with video IDs and time estimates
+        const EXERCISE_DATA = {
+            warmup: { 
+                videoId: '44ScXWFaVBs', 
+                timeMinutes: 10,
+                thumbnail: 'https://img.youtube.com/vi/44ScXWFaVBs/maxresdefault.jpg'
+            },
+            step1: { 
+                videoId: 'gNS_QjGAs_k', 
+                timeMinutes: 2,
+                thumbnail: 'https://img.youtube.com/vi/gNS_QjGAs_k/maxresdefault.jpg'
+            },
+            step2: { 
+                videoId: 'BWedccP0o_U', 
+                timeMinutes: 2,
+                thumbnail: 'https://img.youtube.com/vi/BWedccP0o_U/maxresdefault.jpg'
+            },
+            step2b: { 
+                videoId: 'gNS_QjGAs_k', 
+                timeMinutes: 2,
+                thumbnail: 'https://img.youtube.com/vi/gNS_QjGAs_k/maxresdefault.jpg'
+            },
+            step3: { 
+                videoId: 'm1aMq9W-jDo', 
+                timeMinutes: 2,
+                thumbnail: 'https://img.youtube.com/vi/m1aMq9W-jDo/maxresdefault.jpg'
+            },
+            step4: { 
+                videoId: 'c_VMErzFsZc', 
+                timeMinutes: 4,
+                thumbnail: 'https://img.youtube.com/vi/c_VMErzFsZc/maxresdefault.jpg'
+            },
+            step5: { 
+                videoId: 'WQneOolYFbo', 
+                startTime: 180,
+                timeMinutes: 8,
+                thumbnail: 'https://img.youtube.com/vi/WQneOolYFbo/maxresdefault.jpg'
+            },
+            hidden: { 
+                videoId: 'WQneOolYFbo', 
+                startTime: 240,
+                timeMinutes: 2,
+                thumbnail: 'https://img.youtube.com/vi/WQneOolYFbo/maxresdefault.jpg'
+            },
+            step6: { 
+                videoId: 'WQneOolYFbo', 
+                startTime: 300,
+                timeMinutes: 5,
+                thumbnail: 'https://img.youtube.com/vi/WQneOolYFbo/maxresdefault.jpg'
+            },
+            step7: { 
+                videoId: '7IFO7J3AV5Y', 
+                startTime: 330,
+                timeMinutes: 3,
+                thumbnail: 'https://img.youtube.com/vi/7IFO7J3AV5Y/maxresdefault.jpg'
+            },
+            step8: { 
+                videoId: '44ScXWFaVBs', 
+                timeMinutes: 3,
+                thumbnail: 'https://img.youtube.com/vi/44ScXWFaVBs/maxresdefault.jpg'
+            },
+            step9: { 
+                videoId: 'Jay0Sd2exg0', 
+                timeMinutes: 3,
+                thumbnail: 'https://img.youtube.com/vi/Jay0Sd2exg0/maxresdefault.jpg'
+            },
+            step10: { 
+                videoId: '1fbFMCyRDGs', 
+                timeMinutes: 6,
+                thumbnail: 'https://img.youtube.com/vi/1fbFMCyRDGs/maxresdefault.jpg'
+            }
+        };
+
         // Session persistence keys
         const STORAGE_KEYS = {
             completedExercises: 'atg_completed_exercises',
@@ -740,6 +976,26 @@
             activeExercise: 'atg_active_exercise'
         };
 
+        function calculateTimeRemaining() {
+            const exercises = ['warmup', 'step1', 'step2', 'step2b', 'step3', 'step4', 'step5', 'hidden', 'step6', 'step7', 'step8', 'step9', 'step10'];
+            let totalMinutes = 0;
+            let remainingMinutes = 0;
+            
+            exercises.forEach(exerciseId => {
+                const exerciseData = EXERCISE_DATA[exerciseId];
+                if (exerciseData) {
+                    totalMinutes += exerciseData.timeMinutes;
+                    
+                    const card = document.getElementById(exerciseId);
+                    if (card && !card.classList.contains('completed')) {
+                        remainingMinutes += exerciseData.timeMinutes;
+                    }
+                }
+            });
+            
+            return { total: totalMinutes, remaining: remainingMinutes };
+        }
+
         function updateProgress() {
             const percentage = (completedExercises / totalExercises) * 100;
             document.getElementById('progressFill').style.width = percentage + '%';
@@ -748,6 +1004,17 @@
             // Update sticky header
             document.getElementById('stickyProgressFill').style.width = percentage + '%';
             document.getElementById('stickyCompleted').textContent = completedExercises;
+
+            // Update time remaining
+            const timeData = calculateTimeRemaining();
+            const timeRemainingElement = document.getElementById('timeRemaining');
+            const stickyTimeRemainingElement = document.getElementById('stickyTimeRemaining');
+            if (timeRemainingElement) {
+                timeRemainingElement.textContent = timeData.remaining + ' min remaining';
+            }
+            if (stickyTimeRemainingElement) {
+                stickyTimeRemainingElement.textContent = timeData.remaining + ' min left';
+            }
 
             if (completedExercises === totalExercises) {
                 document.getElementById('completionBanner').classList.add('show');
@@ -879,6 +1146,29 @@
                 // Hide completion banner
                 document.getElementById('completionBanner').classList.remove('show');
             }
+        }
+
+        function loadVideo(exerciseId) {
+            const exerciseData = EXERCISE_DATA[exerciseId];
+            if (!exerciseData) return;
+
+            const container = document.getElementById(`video-${exerciseId}`);
+            if (!container) return;
+
+            // Build YouTube embed URL
+            let embedUrl = `https://www.youtube.com/embed/${exerciseData.videoId}?autoplay=1&rel=0`;
+            if (exerciseData.startTime) {
+                embedUrl += `&start=${exerciseData.startTime}`;
+            }
+
+            // Replace thumbnail with iframe
+            container.innerHTML = `
+                <iframe class="youtube-player" 
+                        src="${embedUrl}" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            `;
         }
 
         function completeExercise(exerciseId) {
