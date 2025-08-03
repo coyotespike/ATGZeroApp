@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATG Picture Book Workout Guide</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="ATG Picture Book Workout - Complete knee strengthening routine">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ATG Workout">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- App Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <style>
         * {
             margin: 0;
@@ -100,6 +113,25 @@
             background: linear-gradient(90deg, #667eea, #764ba2);
             border-radius: 3px;
             transition: width 0.5s ease;
+        }
+
+        .timer-pause-btn {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+            margin-left: 8px;
+        }
+
+        .timer-pause-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .timer-pause-btn.paused {
+            background: rgba(255, 193, 7, 0.2);
         }
 
         .content-offset {
@@ -393,6 +425,7 @@
                 </div>
                 <div class="mini-stat">
                     <span class="mini-stat-number" id="stickyTime">0:00</span>
+                    <button class="timer-pause-btn" id="timerPauseBtn" onclick="toggleWorkoutTimer()">⏸️</button>
                 </div>
             </div>
             <div class="progress-bar">
@@ -421,6 +454,7 @@
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
+            <button class="btn btn-secondary" onclick="resetWorkout()" style="margin-top: 15px; font-size: 0.9em;">Reset Workout</button>
         </div>
 
         <div class="completion-banner" id="completionBanner">
@@ -691,7 +725,20 @@
         let completedExercises = 0;
         let totalExercises = 11;
         let workoutStartTime = Date.now();
+        let workoutPausedTime = 0;
+        let workoutPaused = false;
+        let workoutPauseStart = 0;
+        let workoutTimer = null;
         let timers = {};
+
+        // Session persistence keys
+        const STORAGE_KEYS = {
+            completedExercises: 'atg_completed_exercises',
+            completedList: 'atg_completed_list',
+            workoutStartTime: 'atg_workout_start_time',
+            workoutPausedTime: 'atg_workout_paused_time',
+            activeExercise: 'atg_active_exercise'
+        };
 
         function updateProgress() {
             const percentage = (completedExercises / totalExercises) * 100;
@@ -708,12 +755,130 @@
         }
 
         function updateTimeElapsed() {
-            const elapsed = Date.now() - workoutStartTime;
+            if (workoutPaused) return;
+            
+            const elapsed = Date.now() - workoutStartTime - workoutPausedTime;
             const minutes = Math.floor(elapsed / 60000);
             const seconds = Math.floor((elapsed % 60000) / 1000);
             const timeString = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
             document.getElementById('timeElapsed').textContent = timeString;
             document.getElementById('stickyTime').textContent = timeString;
+        }
+
+        function toggleWorkoutTimer() {
+            const pauseBtn = document.getElementById('timerPauseBtn');
+            
+            if (workoutPaused) {
+                // Resume timer
+                workoutPausedTime += Date.now() - workoutPauseStart;
+                workoutPaused = false;
+                pauseBtn.textContent = '⏸️';
+                pauseBtn.classList.remove('paused');
+                workoutTimer = setInterval(updateTimeElapsed, 1000);
+                saveWorkoutState();
+            } else {
+                // Pause timer
+                workoutPauseStart = Date.now();
+                workoutPaused = true;
+                pauseBtn.textContent = '▶️';
+                pauseBtn.classList.add('paused');
+                if (workoutTimer) {
+                    clearInterval(workoutTimer);
+                }
+                saveWorkoutState();
+            }
+        }
+
+        function saveWorkoutState() {
+            const completedList = [];
+            document.querySelectorAll('.exercise-card.completed').forEach(card => {
+                completedList.push(card.id);
+            });
+
+            const activeCard = document.querySelector('.exercise-card.active');
+            const activeExercise = activeCard ? activeCard.id : null;
+
+            localStorage.setItem(STORAGE_KEYS.completedExercises, completedExercises);
+            localStorage.setItem(STORAGE_KEYS.completedList, JSON.stringify(completedList));
+            localStorage.setItem(STORAGE_KEYS.workoutStartTime, workoutStartTime);
+            localStorage.setItem(STORAGE_KEYS.workoutPausedTime, workoutPausedTime);
+            localStorage.setItem(STORAGE_KEYS.activeExercise, activeExercise);
+        }
+
+        function loadWorkoutState() {
+            const savedCompleted = localStorage.getItem(STORAGE_KEYS.completedExercises);
+            const savedCompletedList = localStorage.getItem(STORAGE_KEYS.completedList);
+            const savedStartTime = localStorage.getItem(STORAGE_KEYS.workoutStartTime);
+            const savedPausedTime = localStorage.getItem(STORAGE_KEYS.workoutPausedTime);
+            const savedActiveExercise = localStorage.getItem(STORAGE_KEYS.activeExercise);
+
+            if (savedCompleted) {
+                completedExercises = parseInt(savedCompleted);
+                workoutStartTime = parseInt(savedStartTime) || Date.now();
+                workoutPausedTime = parseInt(savedPausedTime) || 0;
+
+                // Restore completed exercises
+                if (savedCompletedList) {
+                    const completedList = JSON.parse(savedCompletedList);
+                    completedList.forEach(exerciseId => {
+                        const card = document.getElementById(exerciseId);
+                        if (card) {
+                            card.classList.add('completed');
+                            card.classList.remove('active');
+                        }
+                    });
+                }
+
+                // Restore active exercise
+                if (savedActiveExercise && completedExercises < totalExercises) {
+                    const activeCard = document.getElementById(savedActiveExercise);
+                    if (activeCard && !activeCard.classList.contains('completed')) {
+                        activeCard.classList.add('active');
+                    }
+                }
+
+                updateProgress();
+            }
+        }
+
+        function clearWorkoutState() {
+            Object.values(STORAGE_KEYS).forEach(key => {
+                localStorage.removeItem(key);
+            });
+        }
+
+        function resetWorkout() {
+            if (confirm('Reset workout progress? This will clear all completed exercises.')) {
+                // Clear all state
+                clearWorkoutState();
+                
+                // Reset variables
+                completedExercises = 0;
+                workoutStartTime = Date.now();
+                workoutPausedTime = 0;
+                workoutPaused = false;
+                
+                // Reset UI
+                document.querySelectorAll('.exercise-card').forEach(card => {
+                    card.classList.remove('completed', 'active');
+                });
+                document.getElementById('warmup').classList.add('active');
+                
+                // Reset timer button
+                const pauseBtn = document.getElementById('timerPauseBtn');
+                pauseBtn.textContent = '⏸️';
+                pauseBtn.classList.remove('paused');
+                
+                // Restart timer
+                if (workoutTimer) clearInterval(workoutTimer);
+                workoutTimer = setInterval(updateTimeElapsed, 1000);
+                
+                // Update progress
+                updateProgress();
+                
+                // Hide completion banner
+                document.getElementById('completionBanner').classList.remove('show');
+            }
         }
 
         function completeExercise(exerciseId) {
@@ -739,6 +904,16 @@
                     setTimeout(() => {
                         scrollToActiveExercise();
                     }, 300);
+                }
+
+                // Save state after completing exercise
+                saveWorkoutState();
+
+                // Clear state if workout is complete
+                if (completedExercises === totalExercises) {
+                    setTimeout(() => {
+                        clearWorkoutState();
+                    }, 5000); // Clear after 5 seconds of completion
                 }
             }
         }
@@ -814,17 +989,44 @@
             }
         }
 
-        // Initialize the first exercise as active
-        document.getElementById('warmup').classList.add('active');
+        // Initialize app
+        function initializeApp() {
+            // Load saved workout state
+            loadWorkoutState();
+            
+            // If no saved state, set first exercise as active
+            if (!document.querySelector('.exercise-card.active')) {
+                document.getElementById('warmup').classList.add('active');
+            }
 
-        // Update elapsed time every second
-        setInterval(updateTimeElapsed, 1000);
+            // Start workout timer
+            workoutTimer = setInterval(updateTimeElapsed, 1000);
 
-        // Handle sticky header on scroll
-        window.addEventListener('scroll', handleStickyHeader);
-        
-        // Initial check for sticky header
-        handleStickyHeader();
+            // Handle sticky header on scroll
+            window.addEventListener('scroll', handleStickyHeader);
+            
+            // Initial check for sticky header
+            handleStickyHeader();
+
+            // Initial progress update
+            updateProgress();
+        }
+
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Initialize when page loads
+        initializeApp();
     </script>
 </body>
 </html>

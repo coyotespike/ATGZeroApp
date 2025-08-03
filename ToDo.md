@@ -1,8 +1,26 @@
+📋 Implementation Roadmap & Progress
+
+## ✅ Completed Features
+- [x] **Sticky progress header** - Fixed header with stats and progress bar that appears on scroll
+- [x] **Auto-scroll to active exercise** - Smooth scroll to next exercise when completing steps
+- [x] **Mobile-responsive sticky header** - Proper layout for mobile viewports
+- [x] **Workout timer pause/resume** - Pause button in sticky header to pause overall workout timer
+- [x] **Session persistence** - Saves progress using localStorage, restores on page reload
+- [x] **PWA functionality** - Installable as home screen app with offline support
+- [x] **Reset workout** - Button to clear progress and restart workout
+
+## 🚧 Architecture Notes
+- **Current:** Single HTML file approach for zero-deployment complexity
+- **Future:** When more complex features needed, consider Web Components or ES6 modules
+- **Build:** Can transition to component-based development with build step while maintaining single-file deployment
+
+---
+
 🎯 Priority 1: Core UX Fixes (Immediate Impact)
 A. Progress Persistence & Navigation
 
-Auto-scroll to active exercise - Smooth scroll when completing steps
-Floating/sticky progress header - Always visible stats and progress bar
+~~Auto-scroll to active exercise~~ ✅ DONE - Smooth scroll when completing steps
+~~Floating/sticky progress header~~ ✅ DONE - Always visible stats and progress bar
 Session persistence - Save progress (use URL params, session storage, or localStorage)
 Auto-advance timers - When timer hits 0, auto-complete the exercise
 

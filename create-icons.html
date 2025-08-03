@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create ATG App Icons</title>
+</head>
+<body>
+    <h2>ATG Workout App Icon Generator</h2>
+    <p>Use this to create icons for the PWA:</p>
+    
+    <!-- 192x192 Icon -->
+    <div style="margin: 20px 0;">
+        <h3>192x192 Icon</h3>
+        <canvas id="icon192" width="192" height="192" style="border: 1px solid #ccc;"></canvas>
+        <br><button onclick="downloadIcon('icon192', 'icon-192.png')">Download 192x192</button>
+    </div>
+    
+    <!-- 512x512 Icon -->
+    <div style="margin: 20px 0;">
+        <h3>512x512 Icon</h3>
+        <canvas id="icon512" width="512" height="512" style="border: 1px solid #ccc;"></canvas>
+        <br><button onclick="downloadIcon('icon512', 'icon-512.png')">Download 512x512</button>
+    </div>
+
+    <script>
+        function createIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // White text
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.2}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // ATG text
+            ctx.fillText('ATG', size/2, size/2 - size*0.1);
+            
+            // Smaller subtitle
+            ctx.font = `${size * 0.08}px Arial`;
+            ctx.fillText('WORKOUT', size/2, size/2 + size*0.1);
+            
+            // Add knee icon (simple representation)
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = size * 0.02;
+            ctx.beginPath();
+            ctx.arc(size/2, size/2 + size*0.25, size*0.08, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
+        
+        function downloadIcon(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Create both icons
+        createIcon('icon192', 192);
+        createIcon('icon512', 512);
+    </script>
+    
+    <div style="margin-top: 30px; padding: 20px; background: #f0f0f0;">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Click "Download 192x192" to save the small icon</li>
+            <li>Click "Download 512x512" to save the large icon</li>
+            <li>Place both PNG files in the same directory as index.html</li>
+            <li>The PWA is now ready to install!</li>
+        </ol>
+        
+        <h3>How to Install:</h3>
+        <p><strong>On iPhone/iPad:</strong></p>
+        <ol>
+            <li>Open the website in Safari</li>
+            <li>Tap the Share button (square with arrow)</li>
+            <li>Tap "Add to Home Screen"</li>
+            <li>Tap "Add" - the app icon will appear on home screen</li>
+        </ol>
+        
+        <p><strong>On Android:</strong></p>
+        <ol>
+            <li>Open the website in Chrome</li>
+            <li>Tap the menu (three dots)</li>
+            <li>Tap "Add to Home screen"</li>
+            <li>Tap "Add" - the app icon will appear on home screen</li>
+        </ol>
+    </div>
+</body>
+</html>
